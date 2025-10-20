@@ -1,0 +1,37 @@
+version: "2"
+
+linters:
+  enable:
+    - govet
+    - errcheck
+    - staticcheck
+    - unused
+    - ineffassign
+    - revive
+    - dupl
+    - misspell
+    - gosec        # セキュリティチェック
+    - bodyclose    # HTTPレスポンスボディのクローズチェック
+    - unconvert    # 不要な型変換チェック
+    - unparam      # 未使用パラメータチェック
+    - gocyclo      # 循環的複雑度チェック
+    - goconst      # 繰り返し文字列の定数化チェック
+
+formatters:
+  enable:
+    - gofumpt
+
+issues:
+  max-same-issues: 5
+  max-issues-per-linter: 20
+
+run:
+  timeout: 5m
+  tests: true
+
+severity:
+  default: warning
+  rules:
+    - linters:
+        - revive
+      severity: info
