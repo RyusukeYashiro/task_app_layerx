@@ -6,6 +6,18 @@ gen-oapi:
 	oapi-codegen -generate echo-server  -package api -o internal/presentation/http/echo/server.gen.go api/openapi.yaml
 	@echo "openapi code generated successfully"
 
+# マイグレーション
+migrate-up:
+	docker compose exec db mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME} < migrations/0001_init.up.sql
+	@echo "migration up completed"
+
+migrate-down:
+	docker compose exec db mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME} < migrations/0001_init.down.sql
+	@echo "migration down completed"
+
+migrate-status:
+	docker compose exec db mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME} -e "SHOW TABLES;"
+
 # サーバー起動
 run:
 	go run ./cmd/api
@@ -48,16 +60,19 @@ clean:
 # ヘルプ
 help:
 	@echo "Available commands:"
-	@echo "  gen-oapi - Generate OpenAPI code"
-	@echo "  run      - Run application locally"
-	@echo "  lint     - Run golangci-lint"
-	@echo "  test     - Run tests with race detector"
-	@echo "  build    - Build docker images"
-	@echo "  up       - Start containers"
-	@echo "  down     - Stop containers"
-	@echo "  logs     - Show app logs"
-	@echo "  ps       - Show running containers"
-	@echo "  bash     - Open shell in app container"
-	@echo "  clean    - Clean build artifacts and caches"
+	@echo "  gen-oapi      - Generate OpenAPI code"
+	@echo "  run           - Run application locally"
+	@echo "  lint          - Run golangci-lint"
+	@echo "  test          - Run tests with race detector"
+	@echo "  build         - Build docker images"
+	@echo "  up            - Start containers"
+	@echo "  down          - Stop containers"
+	@echo "  logs          - Show app logs"
+	@echo "  ps            - Show running containers"
+	@echo "  bash          - Open shell in app container"
+	@echo "  migrate-up    - Run database migrations"
+	@echo "  migrate-down  - Rollback database migrations"
+	@echo "  migrate-status - Show current database tables"
+	@echo "  clean         - Clean build artifacts and caches"
 
-.PHONY: gen-oapi run lint test build up down logs ps bash clean help
+.PHONY: gen-oapi run lint test build up down logs ps bash migrate-up migrate-down migrate-status clean help
