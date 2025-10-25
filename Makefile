@@ -8,15 +8,15 @@ gen-oapi:
 
 # マイグレーション
 migrate-up:
-	docker compose exec db mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME} < migrations/0001_init.up.sql
+	docker compose exec -T db sh -c 'mysql -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE' < migrations/0001_init.up.sql
 	@echo "migration up completed"
 
 migrate-down:
-	docker compose exec db mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME} < migrations/0001_init.down.sql
+	docker compose exec -T db sh -c 'mysql -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE' < migrations/0001_init.down.sql
 	@echo "migration down completed"
 
 migrate-status:
-	docker compose exec db mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME} -e "SHOW TABLES;"
+	docker compose exec db sh -c 'mysql -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE -e "SHOW TABLES;"'
 
 # サーバー起動
 run:
