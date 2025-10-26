@@ -248,5 +248,3 @@ Authorization: Bearer <token>
 cd backend
 make test
 ```
-
-## 🔐 認証
