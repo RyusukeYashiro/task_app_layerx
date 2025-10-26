@@ -15,8 +15,8 @@ const (
 )
 
 type Task struct {
-	ID uint64
-	OwnerID uint64
+	ID int64
+	OwnerID int64
 	Title string
 	Description *string
 	DueDate *time.Time
@@ -27,7 +27,7 @@ type Task struct {
 	DeletedAt *time.Time
 }
 
-func NewTask(clock Clock , ownerID uint64 , title string) (*Task , error) {
+func NewTask(clock Clock , ownerID int64 , title string) (*Task , error) {
 	now := clock.Now()
 	task := &Task{
 		OwnerID: ownerID,
@@ -150,7 +150,7 @@ func (t *Task) SoftDelete (clock Clock) {
 	t.touch(clock)
 }
 
-func (t *Task) IsOwner(userID uint64) bool {
+func (t *Task) IsOwner(userID int64) bool {
 	return t.OwnerID == userID
 }
 

@@ -12,7 +12,7 @@ type Clock interface {
 }
 
 type User struct {
-	ID           uint64
+	ID           int64
 	Email        string
 	PasswordHash string
 	Name         string
