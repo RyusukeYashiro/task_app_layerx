@@ -177,26 +177,22 @@ Infrastructure Layer (DB, External Services)
 
 ### backend/.env
 
-```env
-# Application
-APP_CONTAINER_NAME=task_app_backend
-APP_PORT=8080
-JWT_SECRET=your-secret-key-here
-JWT_ISSUER=task_app_layerx
+`.env.example`をコピーして`.env`を作成してください：
 
-# Database
-DB_CONTAINER_NAME=task_db
-DB_HOST=db  # Docker内では "db", ローカルでは "localhost"
-DB_PORT=3306
-DB_NAME=task_db
-DB_USER=task_user
-DB_PASS=task_password
-DB_ROOT_PASS=root_password
-DB_DSN=task_user:task_password@tcp(db:3306)/task_db?parseTime=true&charset=utf8mb4
-
-# Adminer
-ADMINER_PORT=8081
+```bash
+cp backend/.env.example backend/.env
 ```
+
+**JWT_SECRETの生成:**
+
+今回はプロジェクト学習用のため、ここに記載します。本番環境では環境変数として管理してください。
+
+以下のコマンドで安全なシークレットキーを生成し、`.env`の`JWT_SECRET`に貼り付けてください：
+
+```bash
+openssl rand -base64 32
+```
+
 
 ## 🔐 認証
 
@@ -254,3 +250,17 @@ Authorization: Bearer <token>
 cd backend
 make test
 ```
+**設定例:**
+
+```env
+# JWT認証設定
+JWT_SECRET=BPycwu6/RmShWoQxQBXIDccDaYC+wdAdWG3yTqhf80E=  # ← 上記コマンドで生成した値
+JWT_ISSUER=task_app_layerx
+
+# データベース接続
+DB_DSN=task_user:task_password@tcp(db:3306)/task_db?parseTime=true&charset=utf8mb4
+```
+
+**注意:** その他のDB設定（ユーザー名、パスワード等）は`docker-compose.yml`に直接記載されています。
+
+## 🔐 認証
