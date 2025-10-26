@@ -1,25 +1,37 @@
 services:
-  app:
+  backend:
     build: ./backend
-    container_name: ${APP_CONTAINER_NAME}
+    container_name: task_app_backend
     ports:
-      - "${APP_PORT}:8080"
+      - "8080:8080"
     env_file: ./backend/.env
     depends_on:
-      - db
+      db:
+        condition: service_started
     command: ["./server"]
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: task_app_frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8080
+    depends_on:
+      - backend
     restart: unless-stopped
 
   db:
     image: mysql:8.0
-    container_name: ${DB_CONTAINER_NAME}
+    container_name: task_db
     environment:
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_DATABASE: task_db
+      MYSQL_USER: task_user
+      MYSQL_PASSWORD: task_password
+      MYSQL_ROOT_PASSWORD: root_password
     ports:
-      - "${DB_PORT}:3306"
+      - "3306:3306"
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - db_data:/var/lib/mysql
@@ -27,7 +39,7 @@ services:
   adminer:
     image: adminer:latest
     ports:
-      - "${ADMINER_PORT}:8080"
+      - "8081:8080"
 
 volumes:
   db_data:
