@@ -185,8 +185,6 @@ cp backend/.env.example backend/.env
 
 **JWT_SECRETの生成:**
 
-今回はプロジェクト学習用のため、ここに記載します。本番環境では環境変数として管理してください。
-
 以下のコマンドで安全なシークレットキーを生成し、`.env`の`JWT_SECRET`に貼り付けてください：
 
 ```bash
@@ -250,17 +248,5 @@ Authorization: Bearer <token>
 cd backend
 make test
 ```
-**設定例:**
-
-```env
-# JWT認証設定
-JWT_SECRET=BPycwu6/RmShWoQxQBXIDccDaYC+wdAdWG3yTqhf80E=  # ← 上記コマンドで生成した値
-JWT_ISSUER=task_app_layerx
-
-# データベース接続
-DB_DSN=task_user:task_password@tcp(db:3306)/task_db?parseTime=true&charset=utf8mb4
-```
-
-**注意:** その他のDB設定（ユーザー名、パスワード等）は`docker-compose.yml`に直接記載されています。
 
 ## 🔐 認証
