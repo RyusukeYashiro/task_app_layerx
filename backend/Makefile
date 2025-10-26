@@ -1,11 +1,5 @@
 .SILENT:
 
-# コード生成
-gen-oapi:
-	oapi-codegen -generate types        -package api -o internal/presentation/http/echo/types.gen.go  api/openapi.yaml
-	oapi-codegen -generate echo-server  -package api -o internal/presentation/http/echo/server.gen.go api/openapi.yaml
-	@echo "openapi code generated successfully"
-
 # マイグレーション
 migrate-up:
 	docker compose exec -T db sh -c 'mysql -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE' < migrations/0001_init.up.sql
