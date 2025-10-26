@@ -8,7 +8,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// Config はデータベース接続設定を保持します
+// Configは接続設定を保持する
 type Config struct {
 	Host     string
 	Port     string
@@ -17,7 +17,7 @@ type Config struct {
 	DBName   string
 }
 
-// NewDB は最適化されたプール設定で新しいMySQLデータベース接続を作成します
+// NewDBで新しいMySQLデータベース接続を作成
 func NewDB(cfg Config) (*sql.DB, error) {
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s?parseTime=true&charset=utf8mb4",
