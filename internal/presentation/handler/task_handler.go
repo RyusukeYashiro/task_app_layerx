@@ -10,19 +10,19 @@ import (
 	taskuc "github.com/ryusuke/task_app_layerx/internal/usecase/task"
 )
 
-// TaskHandler はタスク管理のHTTPハンドラー
+// TaskHandlerはタスク管理のHTTPハンドラー
 type TaskHandler struct {
 	taskUseCase *taskuc.TaskUseCase
 }
 
-// NewTaskHandler は新しい TaskHandler を作成する
+// NewTaskHandlerで新しいTaskHandlerを作成
 func NewTaskHandler(taskUseCase *taskuc.TaskUseCase) *TaskHandler {
 	return &TaskHandler{
 		taskUseCase: taskUseCase,
 	}
 }
 
-// ListTasks はタスク一覧を取得する
+// ListTasksはタスク一覧を取得
 // GET /tasks
 func (h *TaskHandler) ListTasks(c echo.Context) error {
 	userID := middleware.GetUserID(c)
@@ -50,7 +50,7 @@ func (h *TaskHandler) ListTasks(c echo.Context) error {
 	return c.JSON(http.StatusOK, tasks)
 }
 
-// CreateTask はタスクを作成する
+// CreateTaskはタスクを作成
 // POST /tasks
 func (h *TaskHandler) CreateTask(c echo.Context) error {
 	userID := middleware.GetUserID(c)
@@ -63,7 +63,6 @@ func (h *TaskHandler) CreateTask(c echo.Context) error {
 		})
 	}
 
-	// DueDateをパース
 	var dueDate *time.Time
 	if req.DueDate != nil {
 		parsed, err := time.Parse(time.RFC3339, *req.DueDate)
@@ -92,7 +91,7 @@ func (h *TaskHandler) CreateTask(c echo.Context) error {
 	return c.JSON(http.StatusCreated, toTaskResponse(resp))
 }
 
-// GetTask はタスク詳細を取得する
+// GetTaskはタスク詳細を取得
 // GET /tasks/:id
 func (h *TaskHandler) GetTask(c echo.Context) error {
 	userID := middleware.GetUserID(c)
@@ -113,7 +112,7 @@ func (h *TaskHandler) GetTask(c echo.Context) error {
 	return c.JSON(http.StatusOK, toTaskResponse(resp))
 }
 
-// UpdateTask はタスクを更新する
+// UpdateTaskはタスクを更新
 // PATCH /tasks/:id
 func (h *TaskHandler) UpdateTask(c echo.Context) error {
 	userID := middleware.GetUserID(c)
@@ -164,7 +163,7 @@ func (h *TaskHandler) UpdateTask(c echo.Context) error {
 	return c.JSON(http.StatusOK, toTaskResponse(resp))
 }
 
-// DeleteTask はタスクを削除する
+// DeleteTaskはタスクを削除
 // DELETE /tasks/:id
 func (h *TaskHandler) DeleteTask(c echo.Context) error {
 	userID := middleware.GetUserID(c)
@@ -185,7 +184,7 @@ func (h *TaskHandler) DeleteTask(c echo.Context) error {
 	return c.NoContent(http.StatusNoContent)
 }
 
-// toTaskResponse は UseCase の TaskResponse を Handler の TaskResponse に変換する
+// toTaskResponseはUseCaseのTaskResponseをHandlerのTaskResponseに変換
 func toTaskResponse(task *taskuc.TaskResponse) TaskResponse {
 	var dueDate *string
 	if task.DueDate != nil {
