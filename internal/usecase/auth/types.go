@@ -21,7 +21,7 @@ type AuthResponse struct {
 
 // UserResponseはユーザー情報のレスポンス
 type UserResponse struct {
-	ID    int64
-	Email string
-	Name  string
+	ID    int64  `json:"id"`
+	Email string `json:"email"`
+	Name  string `json:"name"`
 }
