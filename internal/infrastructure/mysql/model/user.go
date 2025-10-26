@@ -6,7 +6,7 @@ import (
 	"github.com/ryusuke/task_app_layerx/internal/domain"
 )
 
-// User は users テーブルの構造を表します
+// Userはusersテーブルの構造を表す
 type User struct {
 	ID           int64
 	Email        string
@@ -18,7 +18,7 @@ type User struct {
 	DeletedAt    *time.Time
 }
 
-// ToDomain はDBモデルをドメインエンティティに変換します
+// ToDomainはDBモデルをドメインエンティティに変換
 func (m *User) ToDomain() *domain.User {
 	return &domain.User{
 		ID:           m.ID,
@@ -32,7 +32,7 @@ func (m *User) ToDomain() *domain.User {
 	}
 }
 
-// UserFromDomain はドメインエンティティをDBモデルに変換します
+// UserFromDomainはドメインエンティティをDBモデルに変換
 func UserFromDomain(u *domain.User) *User {
 	return &User{
 		ID:           u.ID,

@@ -6,21 +6,21 @@ import (
 	"github.com/ryusuke/task_app_layerx/internal/domain"
 )
 
-// Task は tasks テーブルの構造を表します
+// Taskはtasksテーブルの構造を現す
 type Task struct {
 	ID          int64
 	OwnerID     int64
 	Title       string
 	Description *string
 	DueDate     *time.Time
-	Status      string // DB ENUM -> string
+	Status      string
 	Priority    int
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   *time.Time
 }
 
-// ToDomain はDBモデルをドメインエンティティに変換します
+// ToDomainはDBモデルをドメインエンティティに変換
 func (m *Task) ToDomain() *domain.Task {
 	return &domain.Task{
 		ID:          m.ID,
@@ -36,7 +36,7 @@ func (m *Task) ToDomain() *domain.Task {
 	}
 }
 
-// TaskFromDomain はドメインエンティティをDBモデルに変換します
+// TaskFromDomainはドメインエンティティをDBモデルに変換
 func TaskFromDomain(t *domain.Task) *Task {
 	return &Task{
 		ID:          t.ID,
