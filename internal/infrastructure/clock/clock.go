@@ -6,7 +6,7 @@ import (
 	"github.com/ryusuke/task_app_layerx/internal/domain"
 )
 
-// RealClock は domain.Clock の本番実装です
+// RealClockはdomain.Clockの実装
 type RealClock struct{}
 
 func New() domain.Clock {
