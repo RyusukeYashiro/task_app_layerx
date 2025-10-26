@@ -83,15 +83,6 @@ type SignupRequest struct {
 // TaskListResponse defines model for TaskListResponse.
 type TaskListResponse struct {
 	Items []TaskResponse `json:"items"`
-
-	// Page 現在のページ番号
-	Page int `json:"page"`
-
-	// PerPage 1ページあたりの件数
-	PerPage int `json:"perPage"`
-
-	// Total 総件数
-	Total int64 `json:"total"`
 }
 
 // TaskResponse defines model for TaskResponse.
@@ -151,35 +142,6 @@ type NotFound = ErrorResponse
 
 // Unauthorized defines model for Unauthorized.
 type Unauthorized = ErrorResponse
-
-// ListTasksParams defines parameters for ListTasks.
-type ListTasksParams struct {
-	// Status タスクのステータスでフィルタ
-	Status *TaskStatus `form:"status,omitempty" json:"status,omitempty"`
-
-	// DueFrom 期限開始日時（ISO8601形式）
-	DueFrom *time.Time `form:"dueFrom,omitempty" json:"dueFrom,omitempty"`
-
-	// DueTo 期限終了日時（ISO8601形式）
-	DueTo *time.Time `form:"dueTo,omitempty" json:"dueTo,omitempty"`
-
-	// PriorityMin 優先度の最小値（0-5）
-	PriorityMin *int `form:"priorityMin,omitempty" json:"priorityMin,omitempty"`
-
-	// PriorityMax 優先度の最大値（0-5）
-	PriorityMax *int `form:"priorityMax,omitempty" json:"priorityMax,omitempty"`
-
-	// Sort ソート順（カンマ区切り、`-`で降順）
-	// 許可される列: dueDate, priority, createdAt
-	// 例: `-dueDate,priority` → 期限降順、優先度昇順
-	Sort *string `form:"sort,omitempty" json:"sort,omitempty"`
-
-	// Page ページ番号（1始まり）
-	Page *int `form:"page,omitempty" json:"page,omitempty"`
-
-	// PerPage 1ページあたりの件数
-	PerPage *int `form:"perPage,omitempty" json:"perPage,omitempty"`
-}
 
 // LoginJSONRequestBody defines body for Login for application/json ContentType.
 type LoginJSONRequestBody = LoginRequest

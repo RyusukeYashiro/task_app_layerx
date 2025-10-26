@@ -24,7 +24,7 @@ type ServerInterface interface {
 	Signup(ctx echo.Context) error
 	// タスク一覧取得
 	// (GET /tasks)
-	ListTasks(ctx echo.Context, params ListTasksParams) error
+	ListTasks(ctx echo.Context) error
 	// タスク作成
 	// (POST /tasks)
 	CreateTask(ctx echo.Context) error
@@ -79,66 +79,8 @@ func (w *ServerInterfaceWrapper) ListTasks(ctx echo.Context) error {
 
 	ctx.Set(BearerAuthScopes, []string{})
 
-	// Parameter object where we will unmarshal all parameters from the context
-	var params ListTasksParams
-	// ------------- Optional query parameter "status" -------------
-
-	err = runtime.BindQueryParameter("form", true, false, "status", ctx.QueryParams(), &params.Status)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter status: %s", err))
-	}
-
-	// ------------- Optional query parameter "dueFrom" -------------
-
-	err = runtime.BindQueryParameter("form", true, false, "dueFrom", ctx.QueryParams(), &params.DueFrom)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter dueFrom: %s", err))
-	}
-
-	// ------------- Optional query parameter "dueTo" -------------
-
-	err = runtime.BindQueryParameter("form", true, false, "dueTo", ctx.QueryParams(), &params.DueTo)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter dueTo: %s", err))
-	}
-
-	// ------------- Optional query parameter "priorityMin" -------------
-
-	err = runtime.BindQueryParameter("form", true, false, "priorityMin", ctx.QueryParams(), &params.PriorityMin)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter priorityMin: %s", err))
-	}
-
-	// ------------- Optional query parameter "priorityMax" -------------
-
-	err = runtime.BindQueryParameter("form", true, false, "priorityMax", ctx.QueryParams(), &params.PriorityMax)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter priorityMax: %s", err))
-	}
-
-	// ------------- Optional query parameter "sort" -------------
-
-	err = runtime.BindQueryParameter("form", true, false, "sort", ctx.QueryParams(), &params.Sort)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter sort: %s", err))
-	}
-
-	// ------------- Optional query parameter "page" -------------
-
-	err = runtime.BindQueryParameter("form", true, false, "page", ctx.QueryParams(), &params.Page)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter page: %s", err))
-	}
-
-	// ------------- Optional query parameter "perPage" -------------
-
-	err = runtime.BindQueryParameter("form", true, false, "perPage", ctx.QueryParams(), &params.PerPage)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter perPage: %s", err))
-	}
-
 	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.ListTasks(ctx, params)
+	err = w.Handler.ListTasks(ctx)
 	return err
 }
 
