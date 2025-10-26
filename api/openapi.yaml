@@ -97,48 +97,8 @@ paths:
       description: |
         自分がオーナーまたはアサインされているタスクを取得
 
-        ## 検索パラメータ
-        - **フィルタ**: status, dueFrom, dueTo, priorityMin, priorityMax
-        - **ソート**: `sort=-dueDate,priority` 形式（カンマ区切り、`-`で降順）
-        - **ページング**: page, perPage
+        注: 検索・フィルタ・ソート機能は今後実装予定
       operationId: listTasks
-      parameters:
-        - name: status
-          in: query
-          description: タスクのステータスでフィルタ
-          schema:
-            $ref: '#/components/schemas/TaskStatus'
-        - name: dueFrom
-          in: query
-          description: 期限開始日時（ISO8601形式）
-          schema: { type: string, format: date-time, example: "2025-10-01T00:00:00Z" }
-        - name: dueTo
-          in: query
-          description: 期限終了日時（ISO8601形式）
-          schema: { type: string, format: date-time, example: "2025-10-31T23:59:59Z" }
-        - name: priorityMin
-          in: query
-          description: 優先度の最小値（0-5）
-          schema: { type: integer, minimum: 0, maximum: 5, example: 2 }
-        - name: priorityMax
-          in: query
-          description: 優先度の最大値（0-5）
-          schema: { type: integer, minimum: 0, maximum: 5, example: 5 }
-        - name: sort
-          in: query
-          description: |
-            ソート順（カンマ区切り、`-`で降順）
-            許可される列: dueDate, priority, createdAt
-            例: `-dueDate,priority` → 期限降順、優先度昇順
-          schema: { type: string, example: "-dueDate,priority" }
-        - name: page
-          in: query
-          description: ページ番号（1始まり）
-          schema: { type: integer, minimum: 1, default: 1, example: 1 }
-        - name: perPage
-          in: query
-          description: 1ページあたりの件数
-          schema: { type: integer, minimum: 1, maximum: 100, default: 20, example: 20 }
       responses:
         '200':
           description: 取得成功
@@ -344,14 +304,11 @@ components:
 
     TaskListResponse:
       type: object
-      required: [items, total, page, perPage]
+      required: [items]
       properties:
         items:
           type: array
           items: { $ref: '#/components/schemas/TaskResponse' }
-        total: { type: integer, format: int64, example: 42, description: 総件数 }
-        page: { type: integer, example: 1, description: 現在のページ番号 }
-        perPage: { type: integer, example: 20, description: 1ページあたりの件数 }
 
     # ---- Errors ----
     ErrorResponse:
