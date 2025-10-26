@@ -11,7 +11,7 @@ import (
 )
 
 // JWTMiddlewareはJWT認証を行うミドルウェア
-func JWTMiddleware(jwtService auth.JWTService, userRepo domain.UserRepository, txManager domain.TxManager) echo.MiddlewareFunc {
+func JWTMiddleware(jwtService auth.JWTService, userRepo domain.UserRepository, executor domain.Executor) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			// Authorizationヘッダーからトークンを取得
@@ -48,7 +48,6 @@ func JWTMiddleware(jwtService auth.JWTService, userRepo domain.UserRepository, t
 			}
 
 			// ユーザーを取得
-			executor := txManager.AsExecutor()
 			user, err := userRepo.FindByID(c.Request().Context(), executor, claims.UID)
 			if err != nil {
 				if errors.Is(err, domain.ErrUserNotFound) {
