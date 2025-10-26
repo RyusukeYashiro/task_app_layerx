@@ -1,6 +1,7 @@
 version: "2"
 
 linters:
+  default: none
   enable:
     - govet
     - errcheck
@@ -10,12 +11,12 @@ linters:
     - revive
     - dupl
     - misspell
-    - gosec        # セキュリティチェック
-    - bodyclose    # HTTPレスポンスボディのクローズチェック
-    - unconvert    # 不要な型変換チェック
-    - unparam      # 未使用パラメータチェック
-    - gocyclo      # 循環的複雑度チェック
-    - goconst      # 繰り返し文字列の定数化チェック
+    - gosec
+    - bodyclose
+    - unconvert
+    - unparam
+    - gocyclo
+    - goconst
 
 formatters:
   enable:
@@ -30,8 +31,9 @@ run:
   tests: true
 
 severity:
-  default: warning
+  default: warning          # ← “デフォルト”を必ず定義
   rules:
     - linters:
         - revive
       severity: info
+      
