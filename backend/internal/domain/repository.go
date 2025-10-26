@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// UserRepository defines operations for User persistence
+// UserRepositoryはユーザーの永続化操作を定義
 type UserRepository interface {
 	Create(ctx context.Context, ex Executor, user *User) error
 	FindByID(ctx context.Context, ex Executor, id int64) (*User, error)
@@ -15,7 +15,7 @@ type UserRepository interface {
 	IncrementTokenVersion(ctx context.Context, ex Executor, userID int64, updatedAt time.Time) error
 }
 
-// TaskRepository defines operations for Task persistence
+// TaskRepositoryはタスクの永続化操作を定義
 type TaskRepository interface {
 	Create(ctx context.Context, ex Executor, task *Task) error
 	FindByID(ctx context.Context, ex Executor, taskID int64) (*Task, error)
@@ -24,7 +24,7 @@ type TaskRepository interface {
 	Delete(ctx context.Context, ex Executor, taskID int64, now time.Time) error
 }
 
-// TaskAssigneeRepository defines operations for TaskAssignee persistence
+// TaskAssigneeRepositoryはタスク担当者の永続化操作を定義
 type TaskAssigneeRepository interface {
 	Create(ctx context.Context, ex Executor, assignee *TaskAssignee) error
 	FindByTaskID(ctx context.Context, ex Executor, taskID int64) ([]*TaskAssignee, error)

@@ -1,10 +1,10 @@
 services:
   app:
-    build: .
+    build: ./backend
     container_name: ${APP_CONTAINER_NAME}
     ports:
       - "${APP_PORT}:8080"
-    env_file: .env
+    env_file: ./backend/.env
     depends_on:
       - db
     command: ["./server"]
