@@ -6,11 +6,6 @@ import (
 	"time"
 )
 
-// ドメイン内で使う時計（テスト容易性のための注入点）
-type Clock interface {
-	Now() time.Time
-}
-
 type User struct {
 	ID           int64
 	Email        string
