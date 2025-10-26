@@ -1,9 +1,8 @@
 package domain
 
-
 import (
-	"time"
 	"strings"
+	"time"
 )
 
 type TaskStatus string
@@ -133,10 +132,10 @@ func (t *Task) UpdateDueDate (clock Clock , dueDate *time.Time) {
 
 // 優先度の更新
 func (t *Task) UpdatePriority (clock Clock , priority int) error {
+	t.Priority = priority
 	if err := t.ValidatePriority(); err != nil {
 		return err
 	}
-	t.Priority = priority
 	t.touch(clock)
 	return nil
 }
