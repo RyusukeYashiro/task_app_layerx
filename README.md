@@ -39,6 +39,11 @@ task_app_layerx/
 # すべてのサービスを起動
 docker compose up -d
 
+# データベースマイグレーション実行（初回のみ必須）
+cd backend
+make migrate-up
+cd ..
+
 # ログを確認
 docker compose logs -f
 
@@ -199,7 +204,7 @@ JWT（JSON Web Token）を使用した認証を実装しています。
 ### ユーザー登録
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/auth/register \
+curl -X POST http://localhost:8080/api/v1/auth/signup \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
@@ -229,7 +234,7 @@ Authorization: Bearer <token>
 
 ### 認証
 
-- `POST /api/v1/auth/register` - ユーザー登録
+- `POST /api/v1/auth/signup` - ユーザー登録
 - `POST /api/v1/auth/login` - ログイン
 - `POST /api/v1/auth/logout` - ログアウト（要認証）
 - `GET /api/v1/users` - ユーザー一覧取得（要認証）
@@ -239,7 +244,7 @@ Authorization: Bearer <token>
 - `POST /api/v1/tasks` - タスク作成（要認証）
 - `GET /api/v1/tasks` - タスク一覧取得（要認証）
 - `GET /api/v1/tasks/:id` - タスク詳細取得（要認証）
-- `PUT /api/v1/tasks/:id` - タスク更新（要認証）
+- `PATCH /api/v1/tasks/:id` - タスク更新（要認証）
 - `DELETE /api/v1/tasks/:id` - タスク削除（要認証）
 
 ## 🧪 テスト
