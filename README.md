@@ -33,7 +33,31 @@ task_app_layerx/
 - Docker & Docker Compose
 - (ローカル開発の場合) Go 1.23+, Node.js 20+
 
-### Docker で起動（推奨）
+### 1. 環境変数の設定
+
+```bash
+# backend/.envファイルを作成
+cd backend
+cp .env.example .env
+cd ..
+```
+
+`.env`ファイルの内容（必要に応じて変更）:
+```env
+DB_DSN=task_user:task_password@tcp(db:3306)/task_db?parseTime=true&charset=utf8mb4
+JWT_SECRET=your-secret-key-here-change-in-production
+JWT_ISSUER=task_app_layerx
+APP_PORT=8080
+```
+
+**JWT_SECRETの生成（推奨）:**
+以下のコマンドで安全なシークレットキーを生成し、`.env`の`JWT_SECRET`に貼り付けてください：
+
+```bash
+openssl rand -base64 32
+```
+
+### 2. Docker で起動（推奨）
 
 ```bash
 # すべてのサービスを起動
@@ -182,19 +206,12 @@ Infrastructure Layer (DB, External Services)
 
 ### backend/.env
 
-`.env.example`をコピーして`.env`を作成してください：
+各環境変数の説明:
 
-```bash
-cp backend/.env.example backend/.env
-```
-
-**JWT_SECRETの生成:**
-
-以下のコマンドで安全なシークレットキーを生成し、`.env`の`JWT_SECRET`に貼り付けてください：
-
-```bash
-openssl rand -base64 32
-```
+- **DB_DSN**: データベース接続文字列（形式: `user:password@tcp(host:port)/database?options`）
+- **JWT_SECRET**: JWTトークンの署名に使用する秘密鍵（本番環境では必ず変更）
+- **JWT_ISSUER**: JWTトークンの発行者名
+- **APP_PORT**: アプリケーションのポート番号
 
 
 ## 🔐 認証
