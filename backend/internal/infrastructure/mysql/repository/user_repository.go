@@ -72,7 +72,7 @@ func (r *userRepository) FindByID(ctx context.Context, ex domain.Executor, id in
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, domain.ErrUserNotFound
-		}
+	}
 		return nil, fmt.Errorf("failed to find user by id: %w", err)
 	}
 
@@ -103,7 +103,7 @@ func (r *userRepository) FindByEmail(ctx context.Context, ex domain.Executor, em
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, domain.ErrUserNotFound
-		}
+	}
 		return nil, fmt.Errorf("failed to find user by email: %w", err)
 	}
 
@@ -123,7 +123,9 @@ func (r *userRepository) FindAll(ctx context.Context, ex domain.Executor) ([]*do
 	if err != nil {
 		return nil, fmt.Errorf("failed to find all users: %w", err)
 	}
-	defer rows.Close()
+	defer func() {
+		_ = rows.Close()
+	}()
 
 	var users []*domain.User
 	for rows.Next() {
@@ -140,7 +142,7 @@ func (r *userRepository) FindAll(ctx context.Context, ex domain.Executor) ([]*do
 		)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan user: %w", err)
-		}
+	}
 		users = append(users, m.ToDomain())
 	}
 
