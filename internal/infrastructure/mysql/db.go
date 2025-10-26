@@ -28,6 +28,11 @@ func NewDB(cfg Config) (*sql.DB, error) {
 		cfg.DBName,
 	)
 
+	return NewDBFromDSN(dsn)
+}
+
+// NewDBFromDSNはDSN文字列から新しいMySQLデータベース接続を作成
+func NewDBFromDSN(dsn string) (*sql.DB, error) {
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database: %w", err)
