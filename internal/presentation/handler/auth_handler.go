@@ -102,3 +102,14 @@ func (h *AuthHandler) Logout(c echo.Context) error {
 
 	return c.NoContent(http.StatusNoContent)
 }
+
+// GetUsersはユーザー一覧を取得
+// GET /users
+func (h *AuthHandler) GetUsers(c echo.Context) error {
+	users, err := h.authUseCase.GetUsers(c.Request().Context())
+	if err != nil {
+		return HandleError(c, err)
+	}
+
+	return c.JSON(http.StatusOK, users)
+}

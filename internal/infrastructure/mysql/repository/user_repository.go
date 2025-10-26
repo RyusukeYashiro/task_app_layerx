@@ -110,6 +110,47 @@ func (r *userRepository) FindByEmail(ctx context.Context, ex domain.Executor, em
 	return m.ToDomain(), nil
 }
 
+// FindAllは全ユーザーを取得する
+func (r *userRepository) FindAll(ctx context.Context, ex domain.Executor) ([]*domain.User, error) {
+	query := `
+		SELECT id, email, password_hash, name, token_version, created_at, updated_at, deleted_at
+		FROM users
+		WHERE deleted_at IS NULL
+		ORDER BY created_at DESC
+	`
+
+	rows, err := ex.QueryContext(ctx, query)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find all users: %w", err)
+	}
+	defer rows.Close()
+
+	var users []*domain.User
+	for rows.Next() {
+		var m model.User
+		err := rows.Scan(
+			&m.ID,
+			&m.Email,
+			&m.PasswordHash,
+			&m.Name,
+			&m.TokenVersion,
+			&m.CreatedAt,
+			&m.UpdatedAt,
+			&m.DeletedAt,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("failed to scan user: %w", err)
+		}
+		users = append(users, m.ToDomain())
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, fmt.Errorf("rows error: %w", err)
+	}
+
+	return users, nil
+}
+
 // Updateは既存のユーザーを更新する
 func (r *userRepository) Update(ctx context.Context, ex domain.Executor, user *domain.User) error {
 	m := model.UserFromDomain(user)

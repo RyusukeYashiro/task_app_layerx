@@ -10,6 +10,7 @@ type UserRepository interface {
 	Create(ctx context.Context, ex Executor, user *User) error
 	FindByID(ctx context.Context, ex Executor, id int64) (*User, error)
 	FindByEmail(ctx context.Context, ex Executor, email string) (*User, error)
+	FindAll(ctx context.Context, ex Executor) ([]*User, error)
 	Update(ctx context.Context, ex Executor, user *User) error
 	IncrementTokenVersion(ctx context.Context, ex Executor, userID int64, updatedAt time.Time) error
 }

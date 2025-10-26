@@ -156,3 +156,22 @@ func (u *AuthUseCase) Logout(ctx context.Context, userID int64) error {
 		return u.userRepo.IncrementTokenVersion(ctx, ex, userID, now)
 	})
 }
+
+func (u *AuthUseCase) GetUsers(ctx context.Context) ([]UserResponse, error) {
+	executor := u.txManager.AsExecutor()
+	users, err := u.userRepo.FindAll(ctx, executor)
+	if err != nil {
+		return nil, err
+	}
+
+	response := make([]UserResponse, len(users))
+	for i, user := range users {
+		response[i] = UserResponse{
+			ID:    user.ID,
+			Email: user.Email,
+			Name:  user.Name,
+		}
+	}
+
+	return response, nil
+}
