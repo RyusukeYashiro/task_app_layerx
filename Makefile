@@ -20,7 +20,7 @@ migrate-status:
 
 # サーバー起動
 run:
-	go run ./cmd/api
+	@if [ -f .env ]; then export $$(cat .env | grep -v '^#' | xargs) && go run ./cmd/api; else go run ./cmd/api; fi
 
 # Lint
 lint:
