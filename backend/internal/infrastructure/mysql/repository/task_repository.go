@@ -114,7 +114,9 @@ func (r *taskRepository) ListByUserID(ctx context.Context, ex domain.Executor, u
 	if err != nil {
 		return nil, fmt.Errorf("failed to list tasks: %w", err)
 	}
-	defer rows.Close()
+	defer func() {
+		_ = rows.Close()
+	}()
 
 	var tasks []*domain.Task
 	for rows.Next() {

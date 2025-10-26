@@ -55,7 +55,9 @@ func (r *taskAssigneeRepository) FindByTaskID(ctx context.Context, ex domain.Exe
 	if err != nil {
 		return nil, fmt.Errorf("failed to find task assignees: %w", err)
 	}
-	defer rows.Close()
+	defer func() {
+		_ = rows.Close()
+	}()
 
 	var assignees []*domain.TaskAssignee
 	for rows.Next() {
