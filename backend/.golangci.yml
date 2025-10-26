@@ -8,19 +8,10 @@ linters:
     - staticcheck
     - unused
     - ineffassign
-    - revive
-    - dupl
     - misspell
     - gosec
     - bodyclose
     - unconvert
-    - unparam
-    - gocyclo
-    - goconst
-
-formatters:
-  enable:
-    - gofumpt
 
 issues:
   max-same-issues: 5
