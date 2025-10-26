@@ -54,7 +54,6 @@ clean:
 # ヘルプ
 help:
 	@echo "Available commands:"
-	@echo "  gen-oapi      - Generate OpenAPI code"
 	@echo "  run           - Run application locally"
 	@echo "  lint          - Run golangci-lint"
 	@echo "  test          - Run tests with race detector"
@@ -69,4 +68,4 @@ help:
 	@echo "  migrate-status - Show current database tables"
 	@echo "  clean         - Clean build artifacts and caches"
 
-.PHONY: gen-oapi run lint test build up down logs ps bash migrate-up migrate-down migrate-status clean help
+.PHONY: run lint test build up down logs ps bash migrate-up migrate-down migrate-status clean help
