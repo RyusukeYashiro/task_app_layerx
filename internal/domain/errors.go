@@ -18,6 +18,7 @@ var (
 	ErrInvalidEmail     = errors.New("invalid email format")
 	ErrInvalidPassword  = errors.New("invalid password")
 	ErrPasswordTooShort = errors.New("password must be at least 8 characters")
+	ErrInvalidName      = errors.New("name is required")
 	ErrNameTooLong      = errors.New("name must be less than 100 characters")
 )
 
